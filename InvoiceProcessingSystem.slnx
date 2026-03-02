@@ -1,2 +1,13 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/InvoiceSystem.Application/InvoiceSystem.Application.csproj" />
+    <Project Path="src/InvoiceSystem.Domain/InvoiceSystem.Domain.csproj" />
+    <Project Path="src/InvoiceSystem.Infrastructure/InvoiceSystem.Infrastructure.csproj" />
+    <Project Path="src/InvoiceSystem.WebAPI/InvoiceSystem.WebAPI.csproj" />
+    <Project Path="src/InvoiceSystem.Worker/InvoiceSystem.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/InvoiceSystem.IntegrationTests/InvoiceSystem.IntegrationTests.csproj" />
+    <Project Path="tests/InvoiceSystem.UnitTests/InvoiceSystem.UnitTests.csproj" />
+  </Folder>
 </Solution>
