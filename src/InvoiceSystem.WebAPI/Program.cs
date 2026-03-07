@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using InvoiceSystem.Infrastructure.Persistence;
+﻿using InvoiceSystem.WebAPI.Extensions;
+using InvoiceSystem.WebAPI.Middleware;
 
 namespace InvoiceSystem.WebAPI;
 
@@ -9,22 +9,21 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // 1. Connection String
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        builder.Services.AddCustomCors(builder.Configuration, builder.Environment);
+        builder.Services.AddCustomPostgreSQL(builder.Configuration);
 
-        // 2. Database Registration (PostgreSQL)
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString, 
-                o => o.MigrationsAssembly("InvoiceSystem.Infrastructure")));
-
-        // 3. Infrastructure & Application Services
+        // Infrastructure & Application Services
         builder.Services.AddOpenApi(); // .NET 10 Standard
         builder.Services.AddEndpointsApiExplorer();
 
-        var app = builder.Build();
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails(); // Generates standardized error metadata
 
-        // 4. HTTP Pipeline
+        var app = builder.Build();
+        app.UseExceptionHandler();
+        app.UseCors(CorsServiceExtensions.PolicyName);
+
+        // HTTP Pipeline
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
