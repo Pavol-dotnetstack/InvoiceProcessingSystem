@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.InvoiceNumber).IsUnique();
+            entity.HasIndex(e => e.ClientId);
         });
 
         base.OnModelCreating(modelBuilder);

@@ -1,4 +1,5 @@
-﻿using InvoiceSystem.WebAPI.Extensions;
+﻿using InvoiceSystem.Infrastructure.Persistence;
+using InvoiceSystem.WebAPI.Extensions;
 using InvoiceSystem.WebAPI.Middleware;
 
 namespace InvoiceSystem.WebAPI;
@@ -18,6 +19,10 @@ public class Program
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails(); // Generates standardized error metadata
+
+        //builder.Services.AddScoped<ApplicationDbContext>(); // Register DbContext for DI
+            //.AddScoped<InvoiceRepository>()
+            //.AddScoped<CustomerRepository>();
 
         var app = builder.Build();
         app.UseExceptionHandler();
